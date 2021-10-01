@@ -11,7 +11,7 @@ def callback(msg, **options):
 
 client = redis.Redis()
 pubsub = client.pubsub()
-
+client.config_set('notify-keyspace-events','Ex')
 
 # Set config in config file "notify-keyspace-events Ex"
 # Subscribing to key expire events and whenver we get any notification sending it to event_handler function
