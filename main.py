@@ -3,11 +3,13 @@ import config
 import threading
 import time
 
-def callback(response, **options):
-    print('hi')
+def callback(msg):
+    print('hi '+str(msg))
+
 
 client = redis.StrictRedis()
 pubsub = client.pubsub()
+
 
 # Set config in config file "notify-keyspace-events Ex"
 # Subscribing to key expire events and whenver we get any notification sending it to event_handler function
@@ -21,10 +23,10 @@ def alarm_missing_logic():
     and it will create alerts when necessary.
     """
     while True:
-        time.sleep(30)
+        time.sleep(5)
         client.set_response_callback('EXPIRE', callback)
-        client.set('a', 1)
-        client.expire('a',5)
+        client.set('a', 2)
+        client.expire('a', 30)
 
 
 t1 = threading.Thread(target=alarm_missing_logic, args=[])
