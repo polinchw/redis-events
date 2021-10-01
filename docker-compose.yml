@@ -10,3 +10,8 @@ services:
 
       environment:
           - ALLOW_EMPTY_PASSWORD=yes
+
+      volumes:
+        - ./redis.conf:/usr/local/etc/redis/redis.conf
+        - ./data:/data
+      command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]

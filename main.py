@@ -3,11 +3,13 @@ import config
 import threading
 import time
 
-def callback(msg):
+def callback(msg, **options):
     print('hi '+str(msg))
+    key = msg['data'].decode('utf-8')
+    print('key: '+key)
 
 
-client = redis.StrictRedis()
+client = redis.Redis()
 pubsub = client.pubsub()
 
 
@@ -23,10 +25,9 @@ def alarm_missing_logic():
     and it will create alerts when necessary.
     """
     while True:
-        time.sleep(5)
-        client.set_response_callback('EXPIRE', callback)
-        client.set('a', 2)
-        client.expire('a', 30)
+        time.sleep(15)
+        client.set('testkey', 2)
+        client.expire('testkey', 5)
 
 
 t1 = threading.Thread(target=alarm_missing_logic, args=[])
