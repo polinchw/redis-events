@@ -3,10 +3,12 @@ import config
 import threading
 import time
 
+
 def callback(msg, **options):
     print('hi '+str(msg))
     key = msg['data'].decode('utf-8')
     print('key: '+key)
+    print('something to cherry pick')
 
 
 client = redis.StrictRedis()
