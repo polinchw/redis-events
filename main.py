@@ -18,6 +18,7 @@ client.config_set('notify-keyspace-events','Ex')
 pubsub.psubscribe(**{"__keyevent@0__:expired": callback})
 pubsub.run_in_thread(sleep_time=0.01)
 
+print('something else to cherry pick')
 
 def alarm_missing_logic():
     """
