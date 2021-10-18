@@ -9,7 +9,7 @@ def callback(msg, **options):
     print('key: '+key)
 
 
-client = redis.Redis()
+client = redis.StrictRedis()
 pubsub = client.pubsub()
 client.config_set('notify-keyspace-events','Ex')
 
@@ -24,10 +24,14 @@ def alarm_missing_logic():
     This logic will look at the heart beats in the timestamped records and compare it against the general inventory
     and it will create alerts when necessary.
     """
+    client.set('expirekey', 2)
+    client.expire('expirekey', 15)
     while True:
-        time.sleep(15)
+        time.sleep(5)
+        client.persist('testkey')
         client.set('testkey', 2)
-        client.expire('testkey', 5)
+        client.expire('testkey', 15)
+
 
 
 t1 = threading.Thread(target=alarm_missing_logic, args=[])
